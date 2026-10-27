@@ -7,7 +7,7 @@
  * Un seul fichier, sans dépendance ni compilation. Suit le thème Home Assistant (clair ou sombre).
  */
 const SC_VERSION = '1.0.0';
-const DOMAINE = 'sossen_direct';
+const DOMAINES = ['sossen_direct', 'sossen'];
 
 // translation_key de l'intégration → rôle dans la carte
 const CLES = {
@@ -277,7 +277,7 @@ class SossenCard extends HTMLElement {
     const parDev = {};
     let protection = {};
     for (const e of Object.values(ents)) {
-      if (e.platform !== DOMAINE || !e.device_id) continue;
+      if (!DOMAINES.includes(e.platform) || !e.device_id) continue;
       const role = CLES[e.translation_key];
       if (!role) continue;
       (parDev[e.device_id] ||= {})[role] = e.entity_id;
@@ -522,7 +522,7 @@ class SossenCard extends HTMLElement {
 class SossenInverterCard extends SossenCard {
   static getConfigElement() { return document.createElement('sossen-inverter-card-editor'); }
   static getStubConfig(hass) {
-    const e = Object.values(hass?.entities || {}).find((x) => x.platform === DOMAINE && x.translation_key === 'ac_power_w');
+    const e = Object.values(hass?.entities || {}).find((x) => DOMAINES.includes(x.platform) && x.translation_key === 'ac_power_w');
     return e ? { device: e.device_id } : {};
   }
   setConfig(config) {
@@ -595,7 +595,7 @@ class SossenInverterCardEditor extends HTMLElement {
     }
     this._form.hass = this._hass;
     this._form.schema = [
-      { name: 'device', label: 'e_onduleur', required: true, selector: { device: { integration: DOMAINE, entity: { domain: 'sensor', device_class: 'power' } } } },
+      { name: 'device', label: 'e_onduleur', required: true, selector: { device: { filter: DOMAINES.map((integration) => ({ integration })), entity: { domain: 'sensor', device_class: 'power' } } } },
       { name: 'title', label: 'e_titre', selector: { text: {} } },
       { name: 'show_chart', label: 'e_graphe', selector: { boolean: {} } },
     ];
@@ -621,7 +621,7 @@ class SossenCardEditor extends HTMLElement {
     this._form.hass = this._hass;
     this._form.schema = [
       { name: 'title', label: 'e_titre', selector: { text: {} } },
-      { name: 'inverters', label: 'e_onduleurs', selector: { device: { integration: DOMAINE, multiple: true } } },
+      { name: 'inverters', label: 'e_onduleurs', selector: { device: { filter: DOMAINES.map((integration) => ({ integration })), multiple: true } } },
       { type: 'grid', name: '', schema: [
         { name: 'show_voltage', label: 'e_tension', selector: { boolean: {} } },
         { name: 'show_panels', label: 'e_panneaux', selector: { boolean: {} } },

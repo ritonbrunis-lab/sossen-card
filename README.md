@@ -26,6 +26,7 @@ Carte Home Assistant pour les micro-onduleurs **SOSSEN**, compagne de l'intégra
 ## Aucune configuration
 
 La carte trouve toute seule les onduleurs de l'intégration SOSSEN Direct, quels que soient leurs noms ou la langue.
+Elle fonctionne aussi avec l'intégration [SOSSEN](https://github.com/caveman2024/sossen-ha) (`sossen-ha`).
 Elle suit le thème de Home Assistant (clair ou sombre), s'adapte au téléphone, à la tablette et à l'ordinateur,
 et parle la langue de ton profil : français, anglais, allemand, espagnol, italien ou néerlandais (sinon anglais).
 
@@ -90,6 +91,7 @@ Home Assistant card for **SOSSEN** micro-inverters, companion of the
 
 No configuration needed: the card discovers the SOSSEN Direct inverters by itself, follows your Home Assistant theme
 (light or dark), adapts to phone, tablet and desktop, and speaks English, French, German, Spanish, Italian or Dutch.
+It also works with the [SOSSEN](https://github.com/caveman2024/sossen-ha) integration (`sossen-ha`).
 
 **Install with HACS**: HACS → ⋮ → Custom repositories → `https://github.com/ritonbrunis-lab/sossen-card`, category *Dashboard*.
 Or copy `dist/sossen-card.js` to `config/www/` and add `/local/sossen-card.js` as a JavaScript module resource.
